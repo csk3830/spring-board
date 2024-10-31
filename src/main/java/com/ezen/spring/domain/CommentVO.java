@@ -9,17 +9,22 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@AllArgsConstructor // 모든 필드를 매개변수로 받는 생성자를 자동으로 생성
-@NoArgsConstructor  // 매개변수가 없는 기본 생성자를 생성
-public class BoardVO {
+@AllArgsConstructor
+@NoArgsConstructor
+public class CommentVO {
+//			create table comment(
+//			cno bigint auto_increment,
+//			bno bigint not null ,
+//			writer varchar(500) not null, 
+//			content text, 
+//			reg_date datetime default now(),
+//			primary key(cno));
 	
+	private long cno;
 	private long bno;
-	private String title;
 	private String writer;
 	private String content;
-	private String isDel;
 	private String regDate;
-	private int readCount;
 	
 	
 }
