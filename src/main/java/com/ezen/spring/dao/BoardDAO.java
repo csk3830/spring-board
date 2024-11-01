@@ -19,4 +19,8 @@ public interface BoardDAO {
 
 	int getTotal(PagingVO pgvo);
 
+	void updateReadCount(int bno);
+
+	long getOneBno();
+
 }

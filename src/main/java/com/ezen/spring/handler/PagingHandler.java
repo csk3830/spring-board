@@ -75,7 +75,7 @@ public class PagingHandler {
 	}
 	
 	//댓글용 생성자
-	public PagingHandler(int totalCount, PagingVO pgvo, List<CommentVO>cmtList) {
+	public PagingHandler(int totalCount, PagingVO pgvo, List<CommentVO> cmtList) {
 		this(totalCount, pgvo);
 		this.cmtList = cmtList;
 	}

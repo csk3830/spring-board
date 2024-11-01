@@ -43,7 +43,7 @@ public class CommentServiceImpl implements CommentService{
 		return cdao.delete(cno);
 	}
 
-	@Override
+	@Override	//일반적으로 값을 만들 때 serviceImpl을 더 많이 사용함.
 	public PagingHandler getList(long bno, PagingVO pgvo) {
 		// ph 객체안에 cmtList / totalCount 구해오기
 		List<CommentVO> cmtList = cdao.getList(bno, pgvo);

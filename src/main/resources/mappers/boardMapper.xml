@@ -34,6 +34,16 @@
 		select count(bno) from board where is_del = 'N'
 		<include refid="search"></include>
 	</select>
+	<!-- 조회수 -->
+	<update id="updateReadCount">
+		update board set read_count = read_count+1 where bno = #{bno} 
+	</update>
+	
+	<select id="getOneBno" resultType="long">
+		select max(bno) from board
+	</select>
+	
+	
 	
 	<!-- search 동적 쿼리 -->
 	<!-- 

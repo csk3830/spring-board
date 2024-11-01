@@ -2,14 +2,20 @@ package com.ezen.spring.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.ezen.spring.domain.BoardDTO;
 import com.ezen.spring.domain.BoardVO;
+import com.ezen.spring.domain.FileVO;
 import com.ezen.spring.domain.PagingVO;
+import com.ezen.spring.handler.FileHandler;
 import com.ezen.spring.handler.PagingHandler;
 import com.ezen.spring.service.BoardService;
 
@@ -24,18 +30,34 @@ public class BoardController {
 	/* 생성자 주입시 객체는 final로 생성 */
 
 	private final BoardService bsv;
+	private final FileHandler fh; 
 	
 	//return void => 온 경로 그대로 리턴		/board/register => /board/register.jsp   
 	@GetMapping("/register")
 	public void register() {}
 	
+	//첨부파일 => multipartFile / 여러개... multipartFile[]
 	@PostMapping("/insert")
-	public String insert(BoardVO bvo) {
+	public String insert(BoardVO bvo, MultipartFile[] files) {
 		log.info(">>> insert bvo > {}", bvo);
-		int isOk = bsv.insert(bvo);
+		List<FileVO> flist = null;
+		
+		if(files[0].getSize() > 0) {
+			//파일의 내용이 있다면
+			flist = fh.uploadFiles(files);
+			log.info(">>>>> first > {}", flist);
+		}
+		
+		//files 정보를 이용하여 => List<FileVO> 변환을 하는 핸들러
+		//fileHandler => return List<FileVO> + 파일 저장
+		
+		BoardDTO bdto = new BoardDTO(bvo, flist);	//bvo, flist
+		int isok = bsv.insert(bdto);
+//		log.info(">>>> insert > {}", )
+		//int isOk = bsv.insert(bvo);
 		//서비스야 bvo 줄테니까, 잘 넣고 나한테 1을 다오.
-		log.info(">>>> insert > {}", isOk>0? "OK":"Fail");
-		//	/WEB-INF/views/.jsp	 X
+		//log.info(">>>> insert > {}", isOk>0? "OK":"Fail");
+		//	/WEB-INF/views/.jsp	 x
 		//  컨트롤러의 mapping 위치로 연결할 때 redirect:board/list
 		return "redirect:/";
 	}
@@ -61,10 +83,13 @@ public class BoardController {
 	// return void : 요청 경로로 응답을 그대로 보냄. 	/board/detail => board/detail.jsp
 	// ㄴ 내가 요청하는 이름과 jsp의 이름 및 경로를 맞춰놨기 때문에 가능. 
 	@GetMapping({"/detail", "/modify"})
-	public void detail(int bno, Model m) {
+	public void detail(int bno, Model m, HttpServletRequest request) {
 		// bno에 해당하는 BoardVO 객체를 DB에서 가져와서 모델로 전달
-		BoardVO bvo = bsv.getDetail(bno);
-		m.addAttribute("bvo", bvo);
+		String path = request.getServletPath();
+		BoardDTO bdto = bsv.getDetail(bno);
+		m.addAttribute("bdto", bdto);
+//		BoardVO bvo = bsv.getDetail(bno);
+//		m.addAttribute("bvo", bvo);
 //		return "/board/detail";
 	}
 	

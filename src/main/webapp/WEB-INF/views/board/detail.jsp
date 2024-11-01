@@ -6,6 +6,10 @@
 <div class="container-md">
 	<h1>Board Detail Page...</h1>
 	<hr>
+<!-- request 객체로 온 값은 ${bdto} -->
+<!-- c:set은 값을 저장하는 용도 -->
+<c:set value="${bdto.bvo }" var="bvo"></c:set>
+
 	<div class="mb-3">
 	  <label for="n" class="form-label">no.</label>
 	  <input type="text" class="form-control" id="n" value="${bvo.bno }" readonly>
@@ -22,6 +26,30 @@
 	<div class="mb-3">
 	  <label for="c" class="form-label">content</label>
 	  <textarea class="form-control" id="c" rows="3" readonly>${bvo.content }</textarea>
+	</div>
+
+	<!-- file upload 표시라인 -->
+	<c:set value="${bdto.flist }" var="flist"></c:set>
+	<div class="mb-3">
+		<ul class="list-group list-group-flush">
+			<!-- 파일의 개수만큼 li를 반복하여 파일 표시. 타입이 1인 경우만 그림을 표시 -->
+			<c:forEach items="${flist }" var="fvo">
+				<li class="list-group-item">
+					<c:choose>
+						<c:when test="${fvo.fileType ne 0 }">
+							<div>
+								<img src="/upload/${fvo.saveDir}/${fvo.uuid}_${fvo.fileName}">
+							</div>
+						</c:when>
+						<c:otherwise>
+							<!-- 일반파일 : 아이콘 하나 가져와서 다운로드 가능하게 생성 -->
+						</c:otherwise>
+					</c:choose>
+					<div class="fw-bold">${fvo.fileName }</div>
+					<span class="badge text-bg-primary rounded-pill">${fvo.regDate } / ${fvo.fileSize }Bytes</span>	  	
+				</li>
+			</c:forEach>
+		</ul>
 	</div>
 
 	<a href="/board/modify?bno=${bvo.bno }"><button type="button" class="btn btn-success">modify</button></a>
@@ -48,7 +76,7 @@
 		
 	</ul>
 	
-	<!-- 댓글 더보기 버틑 -->
+	<!-- 댓글 더보기 버튼 : 더 표시하고자 하는 댓글이 없으면 사라지게함. -->
 	<div>
 		<button type="button" id="moreBtn" data-page="1" class="btn btn-dark" style="visibility: hidden;">MORE + </button>
 	</div>
