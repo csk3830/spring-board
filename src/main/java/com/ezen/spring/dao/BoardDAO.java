@@ -2,6 +2,8 @@ package com.ezen.spring.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.ezen.spring.domain.BoardVO;
 import com.ezen.spring.domain.PagingVO;
 
@@ -19,8 +21,12 @@ public interface BoardDAO {
 
 	int getTotal(PagingVO pgvo);
 
-	void updateReadCount(int bno);
+	int updateReadCount(int bno);
 
 	long getOneBno();
+
+	int cmtQtyUpdate(@Param("bno") long bno, @Param("cnt") int cnt);
+
+	void hasFileUpdate(@Param("oneBno") long oneBno, @Param("cnt") int size);
 
 }

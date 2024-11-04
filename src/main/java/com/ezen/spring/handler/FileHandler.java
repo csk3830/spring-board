@@ -92,4 +92,6 @@ public class FileHandler {
 		String mimeType = new Tika().detect(storeFile);	// Tika가 file의 내부요소인 type을 인지하는 역할을 함. "image/jpeg"
 		return mimeType.startsWith("image");
 	}
+
+
 }

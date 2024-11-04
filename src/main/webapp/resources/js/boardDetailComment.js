@@ -108,18 +108,17 @@ document.addEventListener('click', (e)=>{
     }
 
     if(e.target.classList.contains('del')){
-        // cno만 있으면 됨.
+        // cno 만 있으면 됨. 
         let li = e.target.closest('li');
         let cno = li.dataset.cno;
-
         removeCommentToServer(cno).then(result =>{
             if(result == '1'){
                 alert("댓글 삭제 성공");
             }else{
-                alert("댓글 삭제 실패")
+                alert("댓글 삭제 실패");
             }
-            // 댓글 뿌리기
-            spreadCommentList(bnoVal);
+             //댓글 뿌리기
+             spreadCommentList(bnoVal);
         })
     }
 
@@ -153,13 +152,14 @@ async function updateCommentToServer(cmtData) {
 //delete메서드 사용
 async function removeCommentToServer(cno) {
     try {
-        const url = "/comment/"+cno;
+        const url = "/comment/"+cno+"/"+bnoVal;
         const config = {
             method: 'delete'
         }
         const resp = await fetch(url, config);
         // const resp = await fetch("/comment/"+cno, {method:'delete'});
         const result = await resp.text();   //isOk
+        console.log("delete response:", result);
         return result;
 
     } catch (error) {

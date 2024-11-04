@@ -20,4 +20,15 @@ primary key(uuid) -->
 	<select id="getList" resultType="com.ezen.spring.domain.FileVO">
 		select * from file where bno = #{bno}
 	</select>
+	<delete id="deleteFile">
+		delete from file where uuid = #{uuid}
+	</delete>
+	
+	<select id="selectListAllFile" resultType="com.ezen.spring.domain.FileVO">
+		select * from file
+	</select>
+	
+	<select id="getBnoToUuid">
+		select bno from file where uuid = #{uuid}
+	</select>
 </mapper>

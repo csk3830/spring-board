@@ -1,7 +1,5 @@
 package com.ezen.spring.controller;
 
-import java.util.List;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -68,11 +66,10 @@ public class CommentController {
 	}
 	
 	@ResponseBody
-	@DeleteMapping("/{cno}")
-	public String delete(@PathVariable("cno") long cno) {
-		int isOk = csv.delete(cno);
+	@DeleteMapping("/{cno}/{bno}")
+	public String delete(@PathVariable("cno") long cno, @PathVariable("bno")long bno) {
+		int isOk = csv.delete(cno, bno);
 		return isOk > 0 ? "1" : "0";
 	}
-	
 	
 }

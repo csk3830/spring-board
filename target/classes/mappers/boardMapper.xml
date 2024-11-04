@@ -43,7 +43,15 @@
 		select max(bno) from board
 	</select>
 	
+	<update id="cmtQtyUpdate">
+		update board set cmt_qty = cmt_qty + #{cnt}
+		where bno = #{bno}
+	</update>
 	
+	<update id="hasFileUpdate">
+		update board set has_file = has_file + #{cnt}
+		where bno = #{bno}
+	</update>
 	
 	<!-- search 동적 쿼리 -->
 	<!-- 

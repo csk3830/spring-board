@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.ezen.spring.dao.BoardDAO;
 import com.ezen.spring.dao.CommentDAO;
 import com.ezen.spring.domain.CommentVO;
 import com.ezen.spring.domain.PagingVO;
@@ -18,11 +19,16 @@ import lombok.extern.slf4j.Slf4j;
 public class CommentServiceImpl implements CommentService{
 
 	private final CommentDAO cdao;
+	private final BoardDAO bdao;
 
 	@Override
 	public int post(CommentVO cvo) {
 		// TODO Auto-generated method stub
-		return cdao.post(cvo);
+		int isOk = cdao.post(cvo);
+		if(isOk >0) {
+			isOk *= bdao.cmtQtyUpdate(cvo.getBno(), 1);
+		}
+		return isOk;
 	}
 
 //	@Override
@@ -38,11 +44,14 @@ public class CommentServiceImpl implements CommentService{
 	}
 
 	@Override
-	public int delete(long cno) {
-		// TODO Auto-generated method stub
-		return cdao.delete(cno);
+	public int delete(long cno, long bno) {
+		int isOk = cdao.delete(cno);
+		if(isOk > 0) {
+			isOk *= bdao.cmtQtyUpdate(bno, -1);
+		}
+		return isOk;
 	}
-
+	
 	@Override	//일반적으로 값을 만들 때 serviceImpl을 더 많이 사용함.
 	public PagingHandler getList(long bno, PagingVO pgvo) {
 		// ph 객체안에 cmtList / totalCount 구해오기
@@ -51,5 +60,6 @@ public class CommentServiceImpl implements CommentService{
 		PagingHandler ph = new PagingHandler(totalCount, pgvo, cmtList);
 		return ph;
 	}
+
 	
 }

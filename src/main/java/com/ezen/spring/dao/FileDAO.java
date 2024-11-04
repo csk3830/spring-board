@@ -10,4 +10,10 @@ public interface FileDAO {
 
 	List<FileVO> getList(int bno);
 
+	int deleteFile(String uuid);
+
+	List<FileVO> selectListAllFile();
+
+	long getBnoToUuid(String uuid);
+
 }
