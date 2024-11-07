@@ -1,4 +1,4 @@
---24.11.06
+-- 24. 11. 06.
 create table board(
 bno bigint auto_increment,
 title varchar(500) not null,
@@ -8,3 +8,12 @@ is_del varchar(5) default 'N',
 reg_date datetime default now(),
 read_count int default 0,
 primary key(bno));
+
+-- 24. 11. 07.
+create table comment(
+cno bigint auto_increment,
+bno bigint not null, 
+writer varchar(500) not null, 
+content text, 
+reg_date datetime default now(),
+primary key(cno));
