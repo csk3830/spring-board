@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ezen.spring.domain.BoardVO;
+import com.ezen.spring.domain.PagingVO;
+import com.ezen.spring.handler.PagingHandler;
 import com.ezen.spring.service.BoardService;
 
 import lombok.RequiredArgsConstructor;
@@ -39,9 +41,17 @@ public class BoardController {
 	}
 	
 	@GetMapping("/list")
-	public String list(Model m) {
-		List<BoardVO> list = bsv.getList();
+	public String list(Model m, PagingVO pgvo) {		
+		//request.setAttrbute()  
+		//Model 객체가 해당 일을 대신해 줌.
+//		PagingVO pgvo = new PagingVO();
+		List<BoardVO> list = bsv.getList(pgvo);
+		// totalCount를 구해서 PagingHadler에 매개변수로 전달
+		int totalCount = bsv.getTotal(pgvo);
+		PagingHandler ph = new PagingHandler(totalCount, pgvo);
+		log.info(">>> totalCount > {}", totalCount);
 		m.addAttribute("list", list);
+		m.addAttribute("ph", ph);
 		return "/board/list";
 	}
 	

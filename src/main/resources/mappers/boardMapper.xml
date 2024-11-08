@@ -9,7 +9,7 @@
 	</insert>
 	
 	<select id="getList" resultType="com.ezen.spring.domain.BoardVO">
-		select * from board where is_del='N' order by bno desc limit 10
+		select * from board where is_del='N' order by bno desc limit #{pageStart}, #{qty}
 	</select>
 
 	<update id="readCountUp">
@@ -30,7 +30,14 @@
 		update board set is_del = 'Y' where bno = #{bno}
 	</update>
 	
+	<select id="getTotal" resultType="int">
+		select count(bno) from board where is_del = 'N'	
+	</select>
 	
+	<update id="cmtQtyUpdate">
+		update board set cmt_qty = cmt_qty + #{cnt}
+		where bno = #{bno}
+	</update>
 	
 	
 </mapper>
