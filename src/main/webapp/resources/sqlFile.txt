@@ -33,7 +33,7 @@ bno bigint,
 file_size  bigint,
 reg_date datetime default now(),
 primary key(uuid)
-);
+)
 
 -- 24. 11. 04.
 alter TABLE board
@@ -41,9 +41,9 @@ add cmt_qty int default 0,
 add has_file int default 0;
 ---- 댓글 수와 파일 수 업데이트
 update board b set cmt_qty = (
-SELECT COUNT(bno) FROM comment WHERE bno = b.bno);
+SELECT COUNT(bno) FROM comment WHERE bno = b.bno)
 update board b set has_file = (
-SELECT COUNT(bno) FROM file WHERE bno = b.bno);
+SELECT COUNT(bno) FROM file WHERE bno = b.bno)
 
 
 --24. 11. 05.

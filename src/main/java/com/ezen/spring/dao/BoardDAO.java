@@ -27,6 +27,6 @@ public interface BoardDAO {
 
 	int cmtQtyUpdate(@Param("bno") long bno, @Param("cnt") int cnt);
 
-	void hasFileUpdate(@Param("oneBno") long oneBno, @Param("cnt") int size);
+	void hasFileUpdate(@Param("bno") long oneBno, @Param("cnt") int size);
 
 }
