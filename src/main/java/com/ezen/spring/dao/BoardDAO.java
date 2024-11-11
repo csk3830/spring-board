@@ -11,7 +11,7 @@ public interface BoardDAO {
 
 	int insert(BoardVO bvo);
 
-	void readCountUp(int bno);
+	List<BoardVO> getList(PagingVO pgvo);
 
 	BoardVO getDetail(int bno);
 
@@ -21,9 +21,13 @@ public interface BoardDAO {
 
 	int getTotal(PagingVO pgvo);
 
-	List<BoardVO> getList(PagingVO pgvo);
+	long getOneBno();
 
-	int cmtQtyUpdate(@Param("bno") long bno, @Param("cnt") int i);
+	void readCountUp(int bno);
+
+	int cmtQtyUpdate(@Param("bno") long bno, @Param("cnt") int cnt);
+
+	void hasFileUpdate(@Param("bno")long oneBno, @Param("cnt") int size);
 	
 	
 	

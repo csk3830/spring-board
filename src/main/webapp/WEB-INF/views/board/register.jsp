@@ -7,7 +7,7 @@
 <jsp:include page="../layout/header.jsp" />
 <div class="container-md">
 <h1>Board Register Page...</h1>
-
+<sec:authentication property="principal.uvo.nickName" var="authNick"/>
 <hr>
 <!-- enctype : multipart/form-data -->
 <form action="/board/insert" method="post" enctype="multipart/form-data" >
@@ -16,8 +16,8 @@
 		<input type="text" class="form-control" id="t" name="title" placeholder="title...">
 	</div>
 	<div class="mb-3">
-		<label for="w" class="form-label">writer</label>
-		<input type="text" class="form-control" id="w" name="writer" placeholder="writer..." >
+	  <label for="w" class="form-label">writer</label>
+	  <input type="text" class="form-control" id="w" name="writer" value="${authNick }" readonly="readonly">
 	</div>
 	<div class="mb-3">
 		<label for="c" class="form-label">content</label>

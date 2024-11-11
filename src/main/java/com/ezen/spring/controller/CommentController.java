@@ -1,7 +1,5 @@
 package com.ezen.spring.controller;
 
-import java.util.List;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -32,27 +30,32 @@ public class CommentController {
 	private final CommentService csv;
 	
 	@PostMapping("/post")
-	public ResponseEntity<String> post(@RequestBody CommentVO cvo){
-		log.info(">>>> post cvo > {}", cvo);
+	public ResponseEntity<String> post(@RequestBody CommentVO cvo) {
+		log.info(">>>>>>> post cvo > {}",cvo);
 		int isOk = csv.post(cvo);
-		return isOk > 0 ?
-				new ResponseEntity<String>("1", HttpStatus.OK) :
-				new ResponseEntity<String>("0", HttpStatus.INTERNAL_SERVER_ERROR);
+		return isOk > 0? 
+			 new ResponseEntity<String>("1", HttpStatus.OK) : 
+			 new ResponseEntity<String>("0", HttpStatus.INTERNAL_SERVER_ERROR); //error시
 	}
 	
-//	@GetMapping(value = "/{bno}", produces = MediaType.APPLICATION_JSON_VALUE)
+//	@GetMapping(value="/{bno}", produces = MediaType.APPLICATION_JSON_VALUE)
 //	public ResponseEntity<List<CommentVO>> list(@PathVariable("bno") long bno){
 //		List<CommentVO> list = csv.getList(bno);
 //		return new ResponseEntity<List<CommentVO>>(list, HttpStatus.OK);
 //	}
-
-	@GetMapping(value = "/{bno}/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
+	
+	@GetMapping(value="/{bno}/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<PagingHandler> list(@PathVariable("bno") long bno, @PathVariable("page") int page){
-		PagingVO pgvo = new PagingVO(page, 5);	// DB에 전달할 값을 설정 limit 0, 5
-		PagingHandler ph = csv.getList(bno, pgvo);	// 화면에 더보기 버튼 표시 유무
-		
+		PagingVO pgvo = new PagingVO(page, 5); //DB에 전달할 값을 설정 limit 0,5
+		PagingHandler ph = csv.getList(bno, pgvo); //화면에 더보기 버튼의 표시유무
 		return new ResponseEntity<PagingHandler>(ph, HttpStatus.OK);
 	}
+		
+
+//	@PutMapping("/modify")
+//	public ResponseEntity<String> update(@RequestBody CommentVO cvo){
+//		
+//	}
 	
 	@ResponseBody
 	@PutMapping("/modify")
@@ -61,12 +64,12 @@ public class CommentController {
 		return isOk > 0 ? "1" : "0";
 	}
 	
+	
 	@ResponseBody
 	@DeleteMapping("/{cno}/{bno}")
-	public String delete(@PathVariable("cno") long cno, @PathVariable("bno") long bno) {
+	public String delete(@PathVariable("cno") long cno, @PathVariable("bno")long bno) {
 		int isOk = csv.delete(cno, bno);
 		return isOk > 0 ? "1" : "0";
 	}
-	
 	
 }

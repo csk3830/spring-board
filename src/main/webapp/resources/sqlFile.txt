@@ -25,7 +25,7 @@ add has_file int default 0;
   -- 댓글 수 업데이트
   update board b set cmt_qty = (
 SELECT COUNT(bno) FROM comment WHERE bno = b.bno);
-  --첨부파일 테이블 추가
+  -- 첨부파일 테이블 추가
 create table file(
 uuid varchar(256) not null,
 save_dir varchar(256) not null,
@@ -36,3 +36,27 @@ file_size  bigint,
 reg_date datetime default now(),
 primary key(uuid)
 )
+  -- 첨부파일 수 업데이트
+  update board b set has_file = (
+  select count(bno) from comment where bno = b.bno);
+  
+-- 24. 11. 11.
+  --user table
+create table user(
+email varchar(256),
+pwd varchar(256),
+nick_name varchar(256),
+reg_date datetime default now(),
+last_login datetime default now(),
+primary key(email)
+);
+  --권한 테이블(auth)	ADMIN + MANAGER + USER
+create table auth(
+id bigint auto_increment,
+email varchar(256) not null,
+auth varchar(256) not null,
+  --외래키 지정
+primary key(id),
+foreign key(email) references user(email)
+);
+  

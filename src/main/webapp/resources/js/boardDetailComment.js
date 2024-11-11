@@ -12,7 +12,7 @@ document.getElementById('cmtAddBtn').addEventListener('click',()=>{
     }
     let cmtData = {
         bno : bnoVal,
-        writer : cmtWriter.value,
+        writer : cmtWriter.innerText,
         content : cmtText.value
     }
     console.log(cmtData);
@@ -29,8 +29,6 @@ document.getElementById('cmtAddBtn').addEventListener('click',()=>{
 function spreadCommentList(bno, page=1){
     getCommentListFromServer(bno, page).then(result =>{
         console.log("ph>",result)
-        console.log(result.pgvo.pageNo)
-        console.log(result.realEndPage)
         // 댓글 뿌리기
         const ul = document.getElementById('cmtListArea');
         if(result.cmtList.length > 0){
@@ -45,8 +43,10 @@ function spreadCommentList(bno, page=1){
                 li += `</div>`;
                 li += `<span class="badge text-bg-primary rounded-pill">${cvo.regDate}</span>`;
                 //수정 삭제 버튼 추가
-                li += `<button type="button" data-cno=${cvo.cno} class="btn btn-outline-warning btn-sm mod" data-bs-toggle="modal" data-bs-target="#myModal">%</button>`;
-                li += `<button type="button" data-cno=${cvo.cno} class="btn btn-outline-danger btn-sm del">X</button>`;
+                if(cvo.writer == authNick){
+                    li += `<button type="button" data-cno=${cvo.cno} class="btn btn-outline-warning btn-sm mod" data-bs-toggle="modal" data-bs-target="#myModal">수정</button>`;
+                    li += `<button type="button" data-cno=${cvo.cno} class="btn btn-outline-danger btn-sm del">삭제</button>`;
+                }
                 li += `</li>`;
                 ul.innerHTML += li;
             }
@@ -131,13 +131,13 @@ document.addEventListener('click', (e)=>{
 
 async function getCommentListFromServer(bno, page) {
     try {
-        const resp = await fetch("/comment/" + bno + "/" + page);
+        const resp = await fetch("/comment/"+bno+"/"+page);
         const result = await resp.json();
         return result;
     } catch (error) {
         console.log(error);
     }
-}
+ }
 
 async function postCommentToServer(cmtData){
     try {
