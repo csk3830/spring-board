@@ -95,8 +95,11 @@
 
 
 
-
-<a href="/board/register"><button type="button" class="btn btn-info">글쓰기</button></a>
+<div style="display: flex; justify-content: flex-end;">
+    <a href="/board/register">
+        <button type="button" class="btn btn-info">글쓰기</button>
+    </a>
+</div>
 
 </div>
 <jsp:include page="../layout/footer.jsp" />

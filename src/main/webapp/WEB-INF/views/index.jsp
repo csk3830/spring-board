@@ -6,8 +6,8 @@
 <jsp:include page="layout/header.jsp" />
 
 <div class="container-md">
-	<div><img alt="" src="/resources/image/notebook_coffee_art.png" style="width: 100%; padding: 10px;"> </div>
 	<P>The time on the server is ${serverTime}.</P>
+	<div><img alt="" src="/resources/image/notebook_coffee_art.png" style="width: 100%; padding: 10px;"> </div>
 </div>
 
 <script>
